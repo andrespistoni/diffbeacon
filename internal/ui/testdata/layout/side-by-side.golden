@@ -1,0 +1,6 @@
+▶ @@ -1,4 +1,4 @@ [hunk-1]
+▶    1   alpha                       │ ▶    1   alpha                       
+▶    2 - remove one                  │ ▶    2 + insert one                  
+▶    3 - remove two                  │                                      
+▶    4   omega                       │ ▶    3   omega                       
+                                     │ ▶    4 + added tail                  

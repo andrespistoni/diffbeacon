@@ -1,0 +1,6 @@
+! Special/degraded view: binary
+Path: image.bin
+Summary: contains NUL bytes
+Size: before 3 B · after 4 B
+Partial hunks: disabled — binary content is summarized; textual hunks are disabled
+Binary bytes are never rendered as terminal text.

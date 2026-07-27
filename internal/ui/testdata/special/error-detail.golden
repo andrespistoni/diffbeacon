@@ -1,0 +1,20 @@
+┌───────────────────────────────┐┌─────────────────────────────────────────────────────────────────┐
+│▶ Files / Changes              ││ Diff / File                                                     │
+│CHANGES (1)                    ││! content load failed                                            │
+│> U M kept.go                  ││Error detail (press e or Esc to close):                          │
+│                               ││                                                                 │
+│                               ││git failed                                                       │
+│                               ││\x1b[31munsafe                                                   │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+│                               ││                                                                 │
+└───────────────────────────────┘└─────────────────────────────────────────────────────────────────┘
+All · Inline · Changes · branch: … · repo: repo
+↑/k up • ↓/j down • ←/h scroll left • →/l scroll right • tab change focus • ] next hunk …

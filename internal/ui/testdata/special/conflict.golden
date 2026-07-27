@@ -1,0 +1,14 @@
+! Special/degraded view: conflict
+Path: conflict.txt
+Summary: unmerged: both modified
+Size: before 0 B · after 50 B
+Partial hunks: disabled — conflicted entries do not support partial hunks
+Conflict resolution is outside DiffBeacon; side-by-side is not guaranteed.
+
+Working tree content (informational):
+<<<<<<< ours
+\x1b[31mhostile
+=======
+theirs
+>>>>>>> theirs
+

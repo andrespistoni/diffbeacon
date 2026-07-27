@@ -1,0 +1,12 @@
+┌────────────────────────────────────────────────────┐
+│▶ Diff / File                                       │
+│! Compact layout: terminal is too small for two     │
+│panels; Enter/Tab switches files and content. Side- │
+│by-side unavailable at this width; showing          │
+│synchronized inline viewport.                       │
+│  @@ -1,6 +1,6 @@ [hunk-1]                          │
+│   1    1   package sample                          │
+│   2    2                                           │
+└────────────────────────────────────────────────────┘
+All · Side-by-side · Changes · branch: … · repo: repo
+↑/k up • ↓/j down • ←/h scroll left • →/l scroll right • tab change focus • ] next hunk • v inline/side-by-side • r refresh • ? help • q quit

@@ -5,3 +5,6 @@
 .github/
 AGENTS.md
 CLAUDE.md
+/bin/
+/build/
+/dist/

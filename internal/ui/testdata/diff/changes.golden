@@ -1,0 +1,15 @@
+  @@ -1,6 +1,6 @@ [hunk-1]
+   1    1   package sample
+   2    2   
+   3      - const first = 1
+        3 + const first = 2
+   4    4   line4
+   5    5   line5
+   6    6   line6
+  @@ -9,5 +9,5 @@ [hunk-2]
+   9    9   line9
+  10   10   line10
+  11   11   line11
+  12      - const second = 1
+       12 + const second = 2
+  13   13   line13

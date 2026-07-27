@@ -1,0 +1,8 @@
+STAGED (2)
+  S R old.go -> new.go
+  S M same.go
+
+CHANGES (3)
+> U M same.go (conflict: both modified)
+  U M vendor/lib (submodule: commit)
+  ? ? notes.txt

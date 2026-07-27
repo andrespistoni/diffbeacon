@@ -1,0 +1,6 @@
+! Special/degraded view: submodule
+Path: vendor/module
+Summary: submodule: commit changed, tracked content modified
+Size: before 0 B · after 0 B
+Partial hunks: disabled — submodule content and partial hunks are not supported
+Submodule internals are not opened or modified.
