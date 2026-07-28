@@ -26,6 +26,8 @@ y el proyecto utiliza [Versionado Semántico](https://semver.org/lang/es/).
 
 - El watcher ignora eventos que sólo cambian metadata para evitar ciclos de
   refresh observados en macOS.
+- La prueba integrada del watcher ya no depende del orden de scheduling al
+  ejecutarse con race detector en CI.
 
 ### Security
 

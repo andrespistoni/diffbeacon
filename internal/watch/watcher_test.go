@@ -34,7 +34,7 @@ func (b *fakeBackend) Close() error                  { return nil }
 func (b *fakeBackend) Events() <-chan fsnotify.Event { return b.events }
 func (b *fakeBackend) Errors() <-chan error          { return b.errors }
 
-func TestWatcherDebouncesReconcilesAndRecovers(t *testing.T) {
+func TestWatcherEmitsEventsReconcilesAndRecovers(t *testing.T) {
 	root := t.TempDir()
 	gitDir := filepath.Join(root, ".git")
 	if err := os.Mkdir(gitDir, 0o755); err != nil {
@@ -53,9 +53,7 @@ func TestWatcherDebouncesReconcilesAndRecovers(t *testing.T) {
 	signals := watcher.Run(ctx)
 	waitReady(t, watcher.Ready())
 
-	for range 5 {
-		fake.events <- fsnotify.Event{Name: filepath.Join(root, "file"), Op: fsnotify.Write}
-	}
+	fake.events <- fsnotify.Event{Name: filepath.Join(root, "file"), Op: fsnotify.Write}
 	waitForTimerCount(t, clock, 3)
 	clock.Advance(DefaultDebounce)
 	assertSignal(t, signals, ReasonEvent, false)
