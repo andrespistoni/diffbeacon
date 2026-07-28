@@ -39,12 +39,11 @@ try {
     } else {
         Write-Host "Building DiffBeacon..."
         $repoRoot = Split-Path -Parent $PSScriptRoot
-        $version = (Get-Content -LiteralPath (Join-Path $repoRoot "VERSION") -Raw).Trim()
         Push-Location $repoRoot
         $previousCgo = $env:CGO_ENABLED
         try {
             $env:CGO_ENABLED = "0"
-            & $go.Source build -trimpath -ldflags "-X main.version=$version -s -w" -o $tempBinary ./cmd/diffbeacon
+            & $go.Source build -trimpath -o $tempBinary ./cmd/diffbeacon
             if ($LASTEXITCODE -ne 0) {
                 throw "go build failed with exit code $LASTEXITCODE"
             }

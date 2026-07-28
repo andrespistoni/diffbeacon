@@ -55,11 +55,10 @@ if [ -f "$bundled_binary" ]; then
 	cp "$bundled_binary" "$temp_dir/diffbeacon"
 else
 	repo_root=$(dirname "$script_dir")
-	version=$(tr -d '\r\n' < "$repo_root/VERSION")
 	printf '%s\n' "Building DiffBeacon..."
 	(
 		cd "$repo_root"
-		CGO_ENABLED=0 go build -trimpath -ldflags "-X main.version=$version -s -w" -o "$temp_dir/diffbeacon" ./cmd/diffbeacon
+		CGO_ENABLED=0 go build -trimpath -o "$temp_dir/diffbeacon" ./cmd/diffbeacon
 	)
 fi
 

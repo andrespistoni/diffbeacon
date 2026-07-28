@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"diffbeacon/internal/sanitize"
+	"github.com/andrespistoni/diffbeacon/internal/sanitize"
 )
 
 type OperationKind uint8

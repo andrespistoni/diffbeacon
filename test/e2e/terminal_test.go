@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"diffbeacon/internal/testrepo"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 func TestStartupDiagnosticNeutralizesOSC52AndCSI(t *testing.T) {

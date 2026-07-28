@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
 )
 
 func renderSideBySide(state app.Model, styles styles, width int) []string {

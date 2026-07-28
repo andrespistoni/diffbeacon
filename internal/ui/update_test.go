@@ -8,8 +8,8 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"diffbeacon/internal/app"
-	gitpkg "diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 type blockingCoordinator struct {

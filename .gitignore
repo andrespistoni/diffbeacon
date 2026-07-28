@@ -2,8 +2,12 @@
 .btpaitool/
 .codegraph/
 .opencode/
-.github/
-AGENTS.md
+.github/*
+!.github/ISSUE_TEMPLATE/
+!.github/ISSUE_TEMPLATE/*.yml
+!.github/PULL_REQUEST_TEMPLATE.md
+!.github/workflows/
+!.github/workflows/*.yml
 CLAUDE.md
 /bin/
 /build/

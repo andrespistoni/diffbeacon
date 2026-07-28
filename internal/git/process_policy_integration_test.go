@@ -8,8 +8,8 @@ import (
 	"runtime"
 	"testing"
 
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/testrepo"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 func TestRepositoryQueriesNeverExecuteConfiguredFSMonitor(t *testing.T) {

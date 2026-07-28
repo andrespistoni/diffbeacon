@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/testrepo"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 func TestScopeContentUsesDistinctHEADIndexAndWorkingTree(t *testing.T) {

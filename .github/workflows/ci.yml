@@ -1,0 +1,180 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: go mod verify
+      - run: go vet ./...
+      - run: go test ./... -count=1
+      - run: go test ./test/e2e -count=1
+      - run: go test -race ./... -count=1
+      - run: go build -trimpath -o bin/diffbeacon ./cmd/diffbeacon
+
+  windows-installers:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Validate PowerShell installer lifecycle
+        shell: pwsh
+        run: |
+          $sourceInstallDir = Join-Path $env:RUNNER_TEMP "diffbeacon-source-bin"
+          .\scripts\install.ps1 -InstallDir $sourceInstallDir -NoPathUpdate
+          $sourceBinary = Join-Path $sourceInstallDir "diffbeacon.exe"
+          if (-not (Test-Path -LiteralPath $sourceBinary -PathType Leaf)) {
+            throw "Source installer did not create $sourceBinary"
+          }
+          .\scripts\uninstall.ps1 -InstallDir $sourceInstallDir -KeepPath
+
+          $bundle = Join-Path $env:RUNNER_TEMP "diffbeacon-bundle"
+          New-Item -ItemType Directory -Path $bundle -Force | Out-Null
+          $version = "0.0.0-ci"
+          $previousCgo = $env:CGO_ENABLED
+          try {
+            $env:CGO_ENABLED = "0"
+            go build -trimpath -ldflags "-X main.version=$version -s -w" -o (Join-Path $bundle "diffbeacon.exe") .\cmd\diffbeacon
+          } finally {
+            $env:CGO_ENABLED = $previousCgo
+          }
+          Copy-Item -LiteralPath @(".\scripts\install.ps1", ".\scripts\uninstall.ps1") -Destination $bundle
+
+          $originalUserPath = [Environment]::GetEnvironmentVariable("Path", "User")
+          $originalProcessPath = $env:Path
+          try {
+            $installDir = Join-Path $env:RUNNER_TEMP "diffbeacon-bundled-bin"
+            & (Join-Path $bundle "install.ps1") -InstallDir $installDir
+            $binary = Join-Path $installDir "diffbeacon.exe"
+            if (-not (Test-Path -LiteralPath $binary -PathType Leaf)) {
+              throw "Bundled installer did not create $binary"
+            }
+            $reportedVersion = & $binary --version
+            if ($LASTEXITCODE -ne 0 -or $reportedVersion -ne "diffbeacon $version") {
+              throw "Bundled binary reported '$reportedVersion'"
+            }
+            & (Join-Path $bundle "uninstall.ps1") -InstallDir $installDir
+            if (Test-Path -LiteralPath $binary) {
+              throw "Bundled uninstaller did not remove $binary"
+            }
+            $remaining = @([Environment]::GetEnvironmentVariable("Path", "User") -split ";")
+            if ($remaining -contains $installDir) {
+              throw "Bundled uninstaller retained its installer-managed PATH entry"
+            }
+
+            $preexistingDir = Join-Path $env:RUNNER_TEMP "diffbeacon-preexisting-path"
+            $withPreexisting = if ([string]::IsNullOrWhiteSpace($originalUserPath)) { $preexistingDir } else { "$originalUserPath;$preexistingDir" }
+            [Environment]::SetEnvironmentVariable("Path", $withPreexisting, "User")
+            $env:Path = "$originalProcessPath;$preexistingDir"
+            & (Join-Path $bundle "install.ps1") -InstallDir $preexistingDir -NoPathUpdate
+            & (Join-Path $bundle "uninstall.ps1") -InstallDir $preexistingDir
+            $preserved = @([Environment]::GetEnvironmentVariable("Path", "User") -split ";")
+            if ($preserved -notcontains $preexistingDir) {
+              throw "Uninstaller removed a pre-existing PATH entry"
+            }
+          } finally {
+            [Environment]::SetEnvironmentVariable("Path", $originalUserPath, "User")
+            $env:Path = $originalProcessPath
+          }
+
+  minimum-git:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Build authenticated Git 2.31.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes build-essential gettext libcurl4-openssl-dev libexpat1-dev libssl-dev zlib1g-dev
+          base=https://mirrors.edge.kernel.org/pub/software/scm/git
+          curl --fail --location --proto '=https' --tlsv1.2 --output git.tar.xz "$base/git-2.31.0.tar.xz"
+          curl --fail --location --proto '=https' --tlsv1.2 --output git.tar.sign "$base/git-2.31.0.tar.sign"
+          printf '%s  %s\n' 'e8f162cbdb3283e13cd7388d864ed23485f1b046a19e969f12ed2685fb789a40' git.tar.xz | sha256sum --check --strict
+          curl --fail --location --proto '=https' --tlsv1.2 \
+            --output git-release-key.asc \
+            'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xE1F036B1FEE7221FC778ECEFB0B5E88696AFE6CB'
+          gpg --batch --show-keys --with-colons --fingerprint --fingerprint git-release-key.asc \
+            | awk -F: '$1 == "fpr" { print $10 }' \
+            | grep --fixed-strings --line-regexp E1F036B1FEE7221FC778ECEFB0B5E88696AFE6CB
+          gpg --batch --import git-release-key.asc
+          xz --decompress --stdout git.tar.xz \
+            | gpg --batch --status-fd=1 --verify git.tar.sign - \
+            | grep --fixed-strings 'VALIDSIG E1F036B1FEE7221FC778ECEFB0B5E88696AFE6CB'
+          tar --extract --file git.tar.xz
+          make --directory git-2.31.0 configure
+          cd git-2.31.0
+          ./configure --prefix="$RUNNER_TEMP/git-2.31.0" --without-tcltk
+          make -j2 all
+          make install
+      - name: Run minimum/current Git matrix
+        run: ./scripts/test-git-matrix.sh "$RUNNER_TEMP/git-2.31.0/bin/git" /usr/bin/git
+
+  vulnerability-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: go install golang.org/x/vuln/cmd/govulncheck@v1.1.4
+      - run: govulncheck ./...
+
+  release-evidence:
+    needs: [verify, windows-installers, minimum-git, vulnerability-scan]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-go@d35c59abb061a4a6fb18e82ac0862c26744d6ab5 # v5.5.0
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: make dist test-performance VERSION=0.0.0-ci
+      - name: Independent Syft SBOM
+        uses: anchore/sbom-action@f8bdd1d8ac5e901a77a92f111440fdb1b593736b # v0.20.6
+        with:
+          path: ./build/release
+          format: spdx-json
+          output-file: ./dist/diffbeacon-syft.spdx.json
+          upload-artifact: false
+      - name: Attest build provenance
+        if: github.event_name != 'pull_request'
+        uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
+        with:
+          subject-path: |
+            dist/*
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: diffbeacon-release-evidence
+          path: |
+            dist/
+            build/release/
+            build/performance/report.json
+          if-no-files-found: error

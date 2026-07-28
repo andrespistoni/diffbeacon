@@ -1,4 +1,5 @@
-VERSION := $(strip $(shell cat VERSION 2>/dev/null))
+VERSION ?=
+VERSION := $(strip $(VERSION))
 BINARY := diffbeacon
 BIN_DIR := bin
 RAW_DIR := build/release
@@ -22,24 +23,21 @@ ARCHIVES := \
 	$(DIST_DIR)/$(BINARY)_$(VERSION)_windows_amd64.zip \
 	$(DIST_DIR)/$(BINARY)_$(VERSION)_windows_arm64.zip
 
-.PHONY: validate-version version build build-all dist install uninstall release-metadata test test-e2e test-race test-performance benchmark test-git-matrix vet govulncheck check release-check clean
+.PHONY: validate-version build build-all dist install uninstall release-metadata test test-e2e test-race test-performance benchmark test-git-matrix vet govulncheck check release-check clean
 
 validate-version:
 	@if [ -z "$(VERSION)" ]; then \
 		echo "ERROR: VERSION is missing or empty; expected MAJOR.MINOR.PATCH (for example 0.1.0)" >&2; \
 		exit 1; \
 	fi
-	@if ! printf '%s\n' "$(VERSION)" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$$'; then \
-		echo "ERROR: VERSION '$(VERSION)' is not MAJOR.MINOR.PATCH without a v prefix" >&2; \
+	@if ! printf '%s\n' "$(VERSION)" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$$'; then \
+		echo "ERROR: VERSION '$(VERSION)' is not SemVer without a v prefix" >&2; \
 		exit 1; \
 	fi
 
-version: validate-version
-	@printf '%s\n' "$(VERSION)"
-
-build: validate-version
+build:
 	@mkdir -p "$(BIN_DIR)"
-	CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o "$(BIN_DIR)/$(BINARY)" ./cmd/diffbeacon
+	CGO_ENABLED=0 go build -trimpath -o "$(BIN_DIR)/$(BINARY)" ./cmd/diffbeacon
 
 build-all: validate-version
 	@rm -rf "$(RAW_DIR)"
@@ -53,7 +51,7 @@ build-all: validate-version
 	@for artifact in $(RAW_ARTIFACTS); do go version -m "$$artifact" >/dev/null; done
 
 release-metadata: build-all
-	go run ./scripts/release-metadata "$(RAW_DIR)"
+	DIFFBEACON_RELEASE_VERSION="$(VERSION)" go run ./scripts/release-metadata "$(RAW_DIR)"
 	@cd "$(RAW_DIR)" && if command -v sha256sum >/dev/null 2>&1; then sha256sum --check SHA256SUMS; else shasum -a 256 -c SHA256SUMS; fi
 
 dist: release-metadata

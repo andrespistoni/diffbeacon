@@ -9,8 +9,8 @@ import (
 	"strings"
 	"testing"
 
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/testrepo"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 func TestRunDiscoversRepository(t *testing.T) {
@@ -56,6 +56,26 @@ func TestRunReportsVersionWithoutGitOrRepository(t *testing.T) {
 	}
 	if stderr.Len() != 0 {
 		t.Fatalf("stderr = %q, want empty", stderr.String())
+	}
+}
+
+func TestEffectiveVersionNormalizesInjectedTag(t *testing.T) {
+	previous := version
+	version = "v1.2.3"
+	t.Cleanup(func() { version = previous })
+
+	if got, want := effectiveVersion(), "1.2.3"; got != want {
+		t.Fatalf("effectiveVersion() = %q, want %q", got, want)
+	}
+}
+
+func TestEffectiveVersionDoesNotPresentDirtyCheckoutAsRelease(t *testing.T) {
+	previous := version
+	version = ""
+	t.Cleanup(func() { version = previous })
+
+	if got := effectiveVersion(); got != "development" {
+		t.Fatalf("effectiveVersion() = %q, want development", got)
 	}
 }
 

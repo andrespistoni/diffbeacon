@@ -1,0 +1,41 @@
+name: Reporte de bug
+description: Informá un comportamiento reproducible de DiffBeacon
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: No publiques vulnerabilidades; usá el canal privado indicado en SECURITY.md.
+  - type: input
+    id: version
+    attributes:
+      label: Versión
+      placeholder: "diffbeacon 0.1.1"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Entorno
+      placeholder: "Ubuntu 24.04, Git 2.43, terminal..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproducción
+      description: Incluí pasos mínimos y eliminá paths o contenido sensible.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Resultado actual
+    validations:
+      required: true

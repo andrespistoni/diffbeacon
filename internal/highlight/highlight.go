@@ -8,7 +8,7 @@ import (
 	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/lexers"
 
-	diffpkg "diffbeacon/internal/diff"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
 )
 
 const (

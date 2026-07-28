@@ -9,9 +9,9 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
-	watchpkg "diffbeacon/internal/watch"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	watchpkg "github.com/andrespistoni/diffbeacon/internal/watch"
 )
 
 const (

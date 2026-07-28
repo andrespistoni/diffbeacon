@@ -8,12 +8,12 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/highlight"
-	"diffbeacon/internal/testrepo"
-	watchpkg "diffbeacon/internal/watch"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/highlight"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
+	watchpkg "github.com/andrespistoni/diffbeacon/internal/watch"
 )
 
 func TestDiffBeaconExternalProcess(t *testing.T) {

@@ -9,7 +9,7 @@ import (
 	"os/exec"
 	"strings"
 
-	"diffbeacon/internal/sanitize"
+	"github.com/andrespistoni/diffbeacon/internal/sanitize"
 )
 
 const (

@@ -5,19 +5,26 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"regexp"
+	"runtime/debug"
+	"strings"
 
 	tea "github.com/charmbracelet/bubbletea"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/highlight"
-	"diffbeacon/internal/sanitize"
-	"diffbeacon/internal/ui"
-	watchpkg "diffbeacon/internal/watch"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/highlight"
+	"github.com/andrespistoni/diffbeacon/internal/sanitize"
+	"github.com/andrespistoni/diffbeacon/internal/ui"
+	watchpkg "github.com/andrespistoni/diffbeacon/internal/watch"
 )
 
-var version = "development"
+// version is injected by release builds. When it is empty, effectiveVersion
+// falls back to the module version embedded by `go install module@version`.
+var version string
+
+var pseudoVersionPattern = regexp.MustCompile(`^v?0\.0\.0-\d{14}-[0-9a-f]{12}(?:\+.*)?$`)
 
 func main() {
 	os.Exit(run(context.Background(), os.Args[1:], os.Stdin, os.Stdout, os.Stderr, gitpkg.NewRunner("git")))
@@ -25,7 +32,7 @@ func main() {
 
 func run(ctx context.Context, args []string, stdin io.Reader, stdout, stderr io.Writer, runner *gitpkg.Runner) int {
 	if len(args) == 1 && args[0] == "--version" {
-		fmt.Fprintf(stdout, "diffbeacon %s\n", version)
+		fmt.Fprintf(stdout, "diffbeacon %s\n", effectiveVersion())
 		return 0
 	}
 	if len(args) > 1 {
@@ -69,4 +76,18 @@ func run(ctx context.Context, args []string, stdin io.Reader, stdout, stderr io.
 		return 1
 	}
 	return 0
+}
+
+func effectiveVersion() string {
+	if version != "" {
+		return strings.TrimPrefix(version, "v")
+	}
+	if info, ok := debug.ReadBuildInfo(); ok {
+		if value := strings.TrimSpace(info.Main.Version); value != "" && value != "(devel)" {
+			if !strings.Contains(value, "+dirty") && !pseudoVersionPattern.MatchString(value) {
+				return strings.TrimPrefix(value, "v")
+			}
+		}
+	}
+	return "development"
 }

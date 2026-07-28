@@ -13,7 +13,7 @@ import (
 	"time"
 	"unicode/utf8"
 
-	diffpkg "diffbeacon/internal/diff"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
 )
 
 var errUnsafeWorkingTreeEntry = errors.New("working-tree entry is not a safe regular file")

@@ -3,8 +3,8 @@ package ui
 import (
 	"strings"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
 )
 
 func (m Model) visibleError() *app.AppError {

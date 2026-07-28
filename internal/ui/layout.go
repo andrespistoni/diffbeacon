@@ -1,6 +1,6 @@
 package ui
 
-import "diffbeacon/internal/app"
+import "github.com/andrespistoni/diffbeacon/internal/app"
 
 const (
 	minTwoPanelWidth       = 72

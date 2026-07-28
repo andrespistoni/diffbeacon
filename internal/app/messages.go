@@ -1,7 +1,7 @@
 package app
 
 import (
-	gitpkg "diffbeacon/internal/git"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 type Message interface {

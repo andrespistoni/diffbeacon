@@ -1,4 +1,4 @@
-module diffbeacon
+module github.com/andrespistoni/diffbeacon
 
 go 1.26
 

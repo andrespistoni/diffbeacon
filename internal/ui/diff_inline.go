@@ -7,8 +7,8 @@ import (
 
 	"github.com/charmbracelet/lipgloss"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
 )
 
 func renderInline(state app.Model, styles styles) []string {

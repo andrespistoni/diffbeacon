@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"diffbeacon/internal/app"
-	gitpkg "diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 func TestChangeListAllScopesGolden(t *testing.T) {

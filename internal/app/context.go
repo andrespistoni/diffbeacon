@@ -1,8 +1,8 @@
 package app
 
 import (
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 func reconcileSelection(oldChanges, newChanges []gitpkg.Change, selected gitpkg.ChangeIdentity, hasSelection bool) (gitpkg.ChangeIdentity, bool) {

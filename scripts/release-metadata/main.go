@@ -84,13 +84,14 @@ func writeChecksums(directory string, artifacts []artifact) error {
 }
 
 func makeSPDX(artifacts []artifact) map[string]any {
+	releaseVersion := metadataVersion()
 	packages := make([]map[string]any, 0)
 	relationships := make([]map[string]string, 0)
 	modules := map[string]*debug.Module{}
 	for index, item := range artifacts {
 		id := fmt.Sprintf("SPDXRef-Artifact-%d", index+1)
 		packages = append(packages, map[string]any{
-			"SPDXID": id, "name": item.name, "versionInfo": moduleVersion(&item.info.Main),
+			"SPDXID": id, "name": item.name, "versionInfo": releaseVersion,
 			"downloadLocation": "NOASSERTION", "filesAnalyzed": false,
 			"licenseConcluded": "MIT", "licenseDeclared": "MIT",
 			"checksums": []map[string]string{{"algorithm": "SHA256", "checksumValue": item.digest}},
@@ -140,10 +141,17 @@ func makeProvenance(artifacts []artifact) map[string]any {
 		"_type": "https://in-toto.io/Statement/v1", "subject": subjects,
 		"predicateType": "https://slsa.dev/provenance/v1",
 		"predicate": map[string]any{
-			"buildDefinition": map[string]any{"buildType": "https://diffbeacon.invalid/build/go-cross/v1", "externalParameters": map[string]any{"command": "make build-all release-metadata"}},
+			"buildDefinition": map[string]any{"buildType": "https://diffbeacon.invalid/build/go-cross/v1", "externalParameters": map[string]any{"command": "make build-all release-metadata", "version": metadataVersion()}},
 			"runDetails":      map[string]any{"builder": map[string]string{"id": builderID()}, "metadata": map[string]string{"startedOn": creationTime()}},
 		},
 	}
+}
+
+func metadataVersion() string {
+	if value := strings.TrimSpace(os.Getenv("DIFFBEACON_RELEASE_VERSION")); value != "" {
+		return strings.TrimPrefix(value, "v")
+	}
+	return "0.0.0-development"
 }
 
 func moduleVersion(module *debug.Module) string {

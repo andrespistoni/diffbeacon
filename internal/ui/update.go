@@ -4,9 +4,9 @@ import (
 	"github.com/charmbracelet/bubbles/key"
 	tea "github.com/charmbracelet/bubbletea"
 
-	"diffbeacon/internal/app"
-	gitpkg "diffbeacon/internal/git"
-	watchpkg "diffbeacon/internal/watch"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	watchpkg "github.com/andrespistoni/diffbeacon/internal/watch"
 )
 
 type refreshStreamClosedMsg struct{}

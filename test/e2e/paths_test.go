@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"diffbeacon/internal/testrepo"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 func TestSpecialPathsRemainReadOnlyIncludingFormerFVER01Cases(t *testing.T) {

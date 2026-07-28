@@ -1,5 +1,9 @@
 # DiffBeacon
 
+[![CI](https://github.com/andrespistoni/diffbeacon/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/andrespistoni/diffbeacon/actions/workflows/ci.yml?query=branch%3Amain)
+[![GitHub release](https://img.shields.io/github/v/release/andrespistoni/diffbeacon)](https://github.com/andrespistoni/diffbeacon/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 DiffBeacon es una interfaz de terminal local y estrictamente read-only para
 observar y revisar cambios de Git. Muestra cambios staged, modificaciones del
 working tree y archivos nuevos sin editar el repositorio, ejecutar operaciones
@@ -53,6 +57,13 @@ explica cuándo full-file no está disponible y conserva changes-only.
 
 Go no es necesario cuando se instala un paquete precompilado.
 
+Si ya tenés la versión de Go indicada en `go.mod`, también podés instalar la
+última versión desde el código fuente:
+
+```sh
+go install github.com/andrespistoni/diffbeacon/cmd/diffbeacon@latest
+```
+
 ### Plataformas
 
 | Plataforma | Arquitecturas | Estado |
@@ -73,6 +84,8 @@ Para instalar una distribución precompilada necesitás dos archivos:
 El paquete correspondiente a tu plataforma
 SHA256SUMS
 ```
+
+Descargalos desde [GitHub Releases](https://github.com/andrespistoni/diffbeacon/releases/latest).
 
 La versión documentada a continuación es `0.1.1`.
 
@@ -422,27 +435,25 @@ make test-e2e
 Verificación completa de release:
 
 ```sh
-make release-check
+make release-check VERSION=0.1.1
 ```
 
 ## Generar paquetes para compartir
 
-La versión se define en `VERSION` como `MAJOR.MINOR.PATCH`, sin prefijo `v`:
-
-```text
-0.1.1
-```
-
-Antes de distribuir cambios nuevos, incrementá la versión y ejecutá:
+Para una prueba local de empaquetado, pasá una versión SemVer sin prefijo `v`:
 
 ```sh
-make version
-make dist
+make dist VERSION=0.1.1
 ```
 
 Los paquetes finales quedan en `dist/`; los seis binarios raw quedan en
 `build/release/`. `make dist` recompila todas las plataformas, crea los archives,
 genera SBOM/procedencia local y verifica `dist/SHA256SUMS`.
+
+En una publicación oficial no se mantiene un archivo de versión: el tag
+`vMAJOR.MINOR.PATCH` es la única fuente de verdad. El workflow de release
+extrae la versión del tag, valida que exista en `CHANGELOG.md` y la inyecta en
+los binarios, nombres de paquetes, SBOM y procedencia.
 
 No publiques contenido diferente reutilizando la misma versión. Dos artefactos
 con el mismo nombre y hashes distintos vuelven ambiguas las instalaciones y
@@ -455,8 +466,8 @@ diffbeacon_VERSION_PLATFORM_ARCH.tar.gz (o .zip)
 SHA256SUMS
 ```
 
-No agregues `dist/` al historial Git. Los paquetes pueden adjuntarse a una GitHub
-Release o compartirse por un canal interno.
+No agregues `dist/` al historial Git. Las releases oficiales se publican
+automáticamente al enviar el tag.
 
 ## Alcance de v0.1
 

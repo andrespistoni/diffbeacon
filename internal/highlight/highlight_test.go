@@ -9,7 +9,7 @@ import (
 
 	"github.com/alecthomas/chroma/v2"
 
-	diffpkg "diffbeacon/internal/diff"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
 )
 
 func TestHighlightKnownLexerPreservesDiffSemantics(t *testing.T) {

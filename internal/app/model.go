@@ -3,9 +3,9 @@ package app
 import (
 	"fmt"
 
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/highlight"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/highlight"
 )
 
 type Filter uint8

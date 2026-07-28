@@ -1,0 +1,25 @@
+name: Propuesta de funcionalidad
+description: Proponé una mejora compatible con el alcance read-only
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema
+      description: ¿Qué necesidad concreta resolvería?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Alcance
+      options:
+        - label: La propuesta mantiene DiffBeacon estrictamente read-only.
+          required: true

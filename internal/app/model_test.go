@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	gitpkg "diffbeacon/internal/git"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 func TestVisibleChangesGroupsUntrackedWithWorkingTreeChanges(t *testing.T) {

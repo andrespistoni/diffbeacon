@@ -8,10 +8,10 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/highlight"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/highlight"
 )
 
 func TestInlineChangesOnlyGolden(t *testing.T) {

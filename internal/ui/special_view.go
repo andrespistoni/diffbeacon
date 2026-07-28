@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"diffbeacon/internal/app"
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/app"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 func renderSpecial(state app.Model) ([]string, bool) {

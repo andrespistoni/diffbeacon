@@ -16,7 +16,7 @@ import (
 	"testing"
 	"time"
 
-	"diffbeacon/internal/testrepo"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 const (

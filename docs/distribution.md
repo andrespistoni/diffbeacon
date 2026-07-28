@@ -5,12 +5,11 @@ Este flujo permite compartir DiffBeacon sin exigir Go en la máquina destino. Gi
 
 ## Generar paquetes
 
-`VERSION` contiene la versión `MAJOR.MINOR.PATCH` sin prefijo `v`. Para construir
-los seis binarios, empaquetarlos y verificar sus checksums:
+La versión se recibe sin prefijo `v`. Para construir localmente los seis
+binarios, empaquetarlos y verificar sus checksums:
 
 ```sh
-make version
-make dist
+make dist VERSION=0.1.1
 ```
 
 `dist/` contiene cuatro `tar.gz` para Linux/macOS, dos ZIP para Windows,
@@ -62,15 +61,22 @@ diffbeacon --version
 El instalador usa `%LOCALAPPDATA%\DiffBeacon\bin`. `-InstallDir` cambia el destino
 y `-NoPathUpdate` evita modificar el `PATH`.
 
-## Compartir
+## Publicar
 
-Los archivos de `dist/` pueden adjuntarse manualmente a una GitHub Release o
-compartirse por un canal interno. No deben añadirse al historial Git. Para una
-release manual con GitHub CLI, después de crear y publicar el tag correspondiente:
+El workflow `.github/workflows/release.yml` publica una GitHub Release cuando se
+envía un tag `vMAJOR.MINOR.PATCH`. El tag es la fuente de verdad de la versión y
+debe coincidir con una sección fechada de `CHANGELOG.md`; el workflow ejecuta
+`make release-check`, genera procedencia verificable y adjunta todo `dist/`.
+
+Ejemplo, sólo después de completar la checklist de release:
 
 ```sh
-gh release create v0.1.1 dist/* --title "DiffBeacon v0.1.1" --generate-notes
+git tag v0.1.1
+git push origin v0.1.1
 ```
+
+No agregues `dist/` al historial Git ni publiques una release manual en paralelo
+con el workflow.
 
 Windows continúa siendo experimental hasta validar la TUI completa en un host
 Windows. Los binarios Windows y macOS no están firmados, por lo que SmartScreen o

@@ -8,8 +8,8 @@ import (
 	"strings"
 	"testing"
 
-	gitpkg "diffbeacon/internal/git"
-	"diffbeacon/internal/testrepo"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
+	"github.com/andrespistoni/diffbeacon/internal/testrepo"
 )
 
 func TestPromisorContentQueriesFailLocallyWithoutTransportOrMutation(t *testing.T) {

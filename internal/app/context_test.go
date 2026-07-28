@@ -3,8 +3,8 @@ package app
 import (
 	"testing"
 
-	diffpkg "diffbeacon/internal/diff"
-	gitpkg "diffbeacon/internal/git"
+	diffpkg "github.com/andrespistoni/diffbeacon/internal/diff"
+	gitpkg "github.com/andrespistoni/diffbeacon/internal/git"
 )
 
 func TestReconcileSelectionPrefersIdentityThenSamePath(t *testing.T) {
