@@ -7,6 +7,13 @@ y el proyecto utiliza [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+### Fixed
+
+- La validación del instalador reconoce la versión del tag durante una
+  candidata de release y `development` en builds normales.
+- La publicación espera que la verificación completa de Linux, macOS, Windows,
+  Git mínimo y vulnerabilidades finalice correctamente.
+
 ## [0.1.1] - 2026-07-28
 
 ### Added

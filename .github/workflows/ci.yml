@@ -2,7 +2,9 @@ name: CI
 
 on:
   push:
+    branches: ["**"]
   pull_request:
+  workflow_call:
 
 permissions:
   contents: read
@@ -33,7 +35,13 @@ jobs:
           install_dir="$RUNNER_TEMP/diffbeacon-source-bin"
           ./scripts/install.sh --install-dir "$install_dir"
           test -x "$install_dir/diffbeacon"
-          test "$("$install_dir/diffbeacon" --version)" = "diffbeacon development"
+          reported_version=$("$install_dir/diffbeacon" --version)
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            expected_version="diffbeacon ${GITHUB_REF_NAME#v}"
+          else
+            expected_version="diffbeacon development"
+          fi
+          test "$reported_version" = "$expected_version"
           ./scripts/uninstall.sh --install-dir "$install_dir"
           test ! -e "$install_dir/diffbeacon"
 
