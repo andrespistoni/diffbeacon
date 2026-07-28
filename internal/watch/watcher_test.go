@@ -72,6 +72,29 @@ func TestWatcherDebouncesReconcilesAndRecovers(t *testing.T) {
 	assertSignal(t, signals, ReasonEvent, false)
 }
 
+func TestWatcherIgnoresMetadataOnlyEvents(t *testing.T) {
+	root := t.TempDir()
+	gitDir := filepath.Join(root, ".git")
+	if err := os.Mkdir(gitDir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	watcher, err := New(root, gitDir, DefaultConfig())
+	if err != nil {
+		t.Fatal(err)
+	}
+	clock := newFakeClock()
+	fake := newFakeBackend()
+	watcher.clock = clock
+	watcher.newBackend = func() (backend, error) { return fake, nil }
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	signals := watcher.Run(ctx)
+	waitReady(t, watcher.Ready())
+
+	fake.events <- fsnotify.Event{Name: filepath.Join(root, "file"), Op: fsnotify.Chmod}
+	assertNoSignal(t, signals)
+}
+
 func TestWatcherDoesNotFollowDirectorySymlinks(t *testing.T) {
 	root := t.TempDir()
 	gitDir := filepath.Join(root, ".git")

@@ -28,7 +28,7 @@ func TestDiscoverFromRootSubdirectoryAndFile(t *testing.T) {
 			if err != nil {
 				t.Fatalf("Discover(%q) error = %v", path, err)
 			}
-			if got.Root != repository.Path {
+			if !sameResolvedPath(t, got.Root, repository.Path) {
 				t.Fatalf("Root = %q, want %q", got.Root, repository.Path)
 			}
 			if !filepath.IsAbs(got.GitDir) {
@@ -57,12 +57,25 @@ func TestDiscoverLinkedWorktree(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Discover() error = %v", err)
 	}
-	if got.Root != worktree {
+	if !sameResolvedPath(t, got.Root, worktree) {
 		t.Fatalf("Root = %q, want %q", got.Root, worktree)
 	}
 	if got.GitDir == filepath.Join(worktree, ".git") {
 		t.Fatalf("GitDir = %q, want resolved worktree Git directory", got.GitDir)
 	}
+}
+
+func sameResolvedPath(t *testing.T, left, right string) bool {
+	t.Helper()
+	resolvedLeft, err := filepath.EvalSymlinks(left)
+	if err != nil {
+		t.Fatalf("resolve %q: %v", left, err)
+	}
+	resolvedRight, err := filepath.EvalSymlinks(right)
+	if err != nil {
+		t.Fatalf("resolve %q: %v", right, err)
+	}
+	return resolvedLeft == resolvedRight
 }
 
 func TestDiscoverRejectsOutsideRepository(t *testing.T) {

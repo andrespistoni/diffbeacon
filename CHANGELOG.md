@@ -22,6 +22,11 @@ y el proyecto utiliza [Versionado Semántico](https://semver.org/lang/es/).
 - CI multiplataforma, matriz con Git 2.31.0, race detector, análisis de
   vulnerabilidades y evidencia de release.
 
+### Fixed
+
+- El watcher ignora eventos que sólo cambian metadata para evitar ciclos de
+  refresh observados en macOS.
+
 ### Security
 
 - Allowlist central de comandos Git estrictamente read-only, con helpers,

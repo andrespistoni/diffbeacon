@@ -211,6 +211,9 @@ func (w *Watcher) run(ctx context.Context, output chan<- Signal) {
 				}
 				continue
 			}
+			if !eventChangesRepository(event) {
+				continue
+			}
 			if event.Has(fsnotify.Create) {
 				budget := w.newScanBudget()
 				if err := w.addDirectoryTree(current, event.Name, &budget); err != nil && !errors.Is(err, fs.ErrNotExist) {
@@ -240,6 +243,11 @@ func (w *Watcher) run(ctx context.Context, output chan<- Signal) {
 			reconcileTimer.Reset(w.config.Reconcile)
 		}
 	}
+}
+
+func eventChangesRepository(event fsnotify.Event) bool {
+	const changes = fsnotify.Write | fsnotify.Create | fsnotify.Remove | fsnotify.Rename
+	return event.Op&changes != 0
 }
 
 func (w *Watcher) syncWatches(target backend) error {
