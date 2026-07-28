@@ -29,7 +29,7 @@ Los mismos scripts detectan cuándo están dentro de un paquete precompilado. En
 ese caso instalan el binario incluido y no requieren Go:
 
 ```sh
-tar -xzf diffbeacon_0.1.1_linux_amd64.tar.gz
+tar -xzf diffbeacon_0.1.2_linux_amd64.tar.gz
 sh install.sh
 diffbeacon --version
 ```
@@ -58,7 +58,7 @@ por el propio instalador. `-KeepPath` permite conservar incluso esa entrada.
 Desde un paquete Windows precompilado:
 
 ```powershell
-Expand-Archive .\diffbeacon_0.1.1_windows_amd64.zip -DestinationPath .\diffbeacon
+Expand-Archive .\diffbeacon_0.1.2_windows_amd64.zip -DestinationPath .\diffbeacon
 .\diffbeacon\install.ps1
 diffbeacon --version
 ```

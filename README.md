@@ -138,18 +138,18 @@ SHA256SUMS
 
 Descargalos desde [GitHub Releases](https://github.com/andrespistoni/diffbeacon/releases/latest).
 
-La versión documentada a continuación es `0.1.1`.
+La versión documentada a continuación es `0.1.2`.
 
 ### Elegir el paquete
 
 | Sistema | Arquitectura reportada | Archivo |
 |---|---|---|
-| Linux | `x86_64` | `diffbeacon_0.1.1_linux_amd64.tar.gz` |
-| Linux | `aarch64`/`arm64` | `diffbeacon_0.1.1_linux_arm64.tar.gz` |
-| macOS | `x86_64` | `diffbeacon_0.1.1_darwin_amd64.tar.gz` |
-| macOS | `arm64` | `diffbeacon_0.1.1_darwin_arm64.tar.gz` |
-| Windows | `AMD64` | `diffbeacon_0.1.1_windows_amd64.zip` |
-| Windows | `ARM64` | `diffbeacon_0.1.1_windows_arm64.zip` |
+| Linux | `x86_64` | `diffbeacon_0.1.2_linux_amd64.tar.gz` |
+| Linux | `aarch64`/`arm64` | `diffbeacon_0.1.2_linux_arm64.tar.gz` |
+| macOS | `x86_64` | `diffbeacon_0.1.2_darwin_amd64.tar.gz` |
+| macOS | `arm64` | `diffbeacon_0.1.2_darwin_arm64.tar.gz` |
+| Windows | `AMD64` | `diffbeacon_0.1.2_windows_amd64.zip` |
+| Windows | `ARM64` | `diffbeacon_0.1.2_windows_arm64.zip` |
 
 Linux/macOS pueden consultar su arquitectura con:
 
@@ -170,10 +170,10 @@ Ubicate en el directorio que contiene el paquete y `SHA256SUMS`:
 ```sh
 cd "$HOME/Downloads"
 
-PACKAGE=diffbeacon_0.1.1_linux_amd64.tar.gz
+PACKAGE=diffbeacon_0.1.2_linux_amd64.tar.gz
 grep "  $PACKAGE\$" SHA256SUMS | sha256sum --check -
 
-EXTRACT_DIR=diffbeacon-0.1.1-linux-amd64
+EXTRACT_DIR=diffbeacon-0.1.2-linux-amd64
 mkdir "$EXTRACT_DIR"
 tar -xzf "$PACKAGE" -C "$EXTRACT_DIR"
 cd "$EXTRACT_DIR"
@@ -185,8 +185,8 @@ diffbeacon --version
 Para Linux arm64, reemplazá el nombre del paquete:
 
 ```sh
-PACKAGE=diffbeacon_0.1.1_linux_arm64.tar.gz
-EXTRACT_DIR=diffbeacon-0.1.1-linux-arm64
+PACKAGE=diffbeacon_0.1.2_linux_arm64.tar.gz
+EXTRACT_DIR=diffbeacon-0.1.2-linux-arm64
 ```
 
 El instalador copia el binario a `~/.local/bin/diffbeacon`. Si ese directorio no
@@ -215,10 +215,10 @@ Ubicate en el directorio que contiene el paquete y `SHA256SUMS`:
 ```sh
 cd "$HOME/Downloads"
 
-PACKAGE=diffbeacon_0.1.1_darwin_amd64.tar.gz
+PACKAGE=diffbeacon_0.1.2_darwin_amd64.tar.gz
 grep "  $PACKAGE\$" SHA256SUMS | shasum -a 256 -c -
 
-EXTRACT_DIR=diffbeacon-0.1.1-darwin-amd64
+EXTRACT_DIR=diffbeacon-0.1.2-darwin-amd64
 mkdir "$EXTRACT_DIR"
 tar -xzf "$PACKAGE" -C "$EXTRACT_DIR"
 cd "$EXTRACT_DIR"
@@ -234,10 +234,10 @@ Para Apple Silicon, usá el paquete arm64:
 ```sh
 cd "$HOME/Downloads"
 
-PACKAGE=diffbeacon_0.1.1_darwin_arm64.tar.gz
+PACKAGE=diffbeacon_0.1.2_darwin_arm64.tar.gz
 grep "  $PACKAGE\$" SHA256SUMS | shasum -a 256 -c -
 
-EXTRACT_DIR=diffbeacon-0.1.1-darwin-arm64
+EXTRACT_DIR=diffbeacon-0.1.2-darwin-arm64
 mkdir "$EXTRACT_DIR"
 tar -xzf "$PACKAGE" -C "$EXTRACT_DIR"
 cd "$EXTRACT_DIR"
@@ -256,7 +256,7 @@ Abrí PowerShell en el directorio que contiene el ZIP y `SHA256SUMS`:
 ```powershell
 Set-Location "$HOME\Downloads"
 
-$Package = "diffbeacon_0.1.1_windows_amd64.zip"
+$Package = "diffbeacon_0.1.2_windows_amd64.zip"
 $ChecksumLine = Get-Content .\SHA256SUMS |
     Where-Object { $_ -match "\s+$([regex]::Escape($Package))$" } |
     Select-Object -First 1
@@ -272,7 +272,7 @@ if ($Actual -ne $Expected) {
     throw "SHA256 mismatch for $Package"
 }
 
-$Destination = ".\diffbeacon-0.1.1"
+$Destination = ".\diffbeacon-0.1.2"
 if (Test-Path -LiteralPath $Destination) {
     throw "Destination already exists: $Destination"
 }
@@ -286,7 +286,7 @@ diffbeacon --version
 Para Windows arm64, cambiá únicamente:
 
 ```powershell
-$Package = "diffbeacon_0.1.1_windows_arm64.zip"
+$Package = "diffbeacon_0.1.2_windows_arm64.zip"
 ```
 
 El instalador usa `%LOCALAPPDATA%\DiffBeacon\bin`, lo agrega al `PATH` del usuario
@@ -490,7 +490,7 @@ make test-e2e
 Verificación completa de release:
 
 ```sh
-make release-check VERSION=0.1.1
+make release-check VERSION=0.1.2
 ```
 
 ## Generar paquetes para compartir
@@ -498,7 +498,7 @@ make release-check VERSION=0.1.1
 Para una prueba local de empaquetado, pasá una versión SemVer sin prefijo `v`:
 
 ```sh
-make dist VERSION=0.1.1
+make dist VERSION=0.1.2
 ```
 
 Los paquetes finales quedan en `dist/`; los seis binarios raw quedan en

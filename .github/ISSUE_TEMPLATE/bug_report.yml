@@ -10,7 +10,7 @@ body:
     id: version
     attributes:
       label: Versión
-      placeholder: "diffbeacon 0.1.1"
+      placeholder: "diffbeacon 0.1.2"
     validations:
       required: true
   - type: input

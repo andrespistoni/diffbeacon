@@ -7,6 +7,8 @@ y el proyecto utiliza [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-07-28
+
 ### Fixed
 
 - La validación del instalador reconoce la versión del tag durante una
@@ -43,5 +45,6 @@ y el proyecto utiliza [Versionado Semántico](https://semver.org/lang/es/).
 - Sanitización de diagnósticos y cobertura E2E de privacidad, paths y
   preservación del repositorio.
 
-[Unreleased]: https://github.com/andrespistoni/diffbeacon/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/andrespistoni/diffbeacon/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/andrespistoni/diffbeacon/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/andrespistoni/diffbeacon/releases/tag/v0.1.1

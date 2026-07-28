@@ -33,7 +33,7 @@ make test-race
 Antes de proponer una release:
 
 ```sh
-make release-check VERSION=0.1.1
+make release-check VERSION=0.1.2
 ```
 
 ## Pull requests
