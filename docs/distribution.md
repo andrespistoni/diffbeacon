@@ -3,6 +3,26 @@
 Este flujo permite compartir DiffBeacon sin exigir Go en la máquina destino. Git
 2.31.0 o posterior sigue siendo una dependencia de ejecución.
 
+Los instaladores también pueden ejecutarse como bootstrap de la última release:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/install.sh | sh
+```
+
+```powershell
+irm https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/install.ps1 | iex
+```
+
+La desinstalación remota equivalente es:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/uninstall.sh | sh
+```
+
+```powershell
+irm https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/uninstall.ps1 | iex
+```
+
 ## Generar paquetes
 
 La versión se recibe sin prefijo `v`. Para construir localmente los seis

@@ -9,6 +9,8 @@ observar y revisar cambios de Git. Muestra cambios staged, modificaciones del
 working tree y archivos nuevos sin editar el repositorio, ejecutar operaciones
 remotas ni enviar contenido fuera de la máquina.
 
+![DiffBeacon mostrando la lista de archivos modificados y un diff inline con navegación por hunks](docs/assets/diffbeacon.png)
+
 ## Características
 
 - Lista `STAGED` separada de `CHANGES`.
@@ -47,6 +49,55 @@ Los límites de changes-only y full-file son independientes. Un archivo demasiad
 grande para renderizarse completo puede seguir mostrando un patch pequeño. La UI
 explica cuándo full-file no está disponible y conserva changes-only.
 
+## Inicio rápido
+
+### Linux y macOS
+
+Instalar la última release:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/install.sh | sh
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Abrir el repositorio actual o indicar otro:
+
+```sh
+diffbeacon
+diffbeacon /ruta/al/repositorio
+```
+
+Salir con `q` o `Ctrl+C`. Para desinstalar:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/uninstall.sh | sh
+```
+
+### Windows PowerShell
+
+Instalar la última release:
+
+```powershell
+irm https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/install.ps1 | iex
+```
+
+Abrir el repositorio actual o indicar otro:
+
+```powershell
+diffbeacon
+diffbeacon C:\ruta\al\repositorio
+```
+
+Salir con `q` o `Ctrl+C`. Para desinstalar:
+
+```powershell
+irm https://raw.githubusercontent.com/andrespistoni/diffbeacon/main/scripts/uninstall.ps1 | iex
+```
+
+Los instaladores detectan la plataforma y arquitectura, descargan la última
+GitHub Release y verifican su SHA-256 antes de instalar. DiffBeacon necesita Git
+2.31.0 o posterior para ejecutarse.
+
 ## Requisitos
 
 ### Ejecución
@@ -76,7 +127,7 @@ Windows y macOS se distribuyen actualmente sin firma de código. SmartScreen o
 Gatekeeper pueden mostrar advertencias al descargar los paquetes fuera de un
 entorno de confianza.
 
-## Instalación desde paquetes
+## Instalación manual desde paquetes
 
 Para instalar una distribución precompilada necesitás dos archivos:
 
@@ -270,7 +321,11 @@ Para instalar en Windows sin modificar `PATH`:
 
 ## Desinstalación
 
-Ejecutá el script incluido en el paquete extraído.
+Si usaste la instalación rápida, ejecutá el comando remoto indicado en
+[Inicio rápido](#inicio-rápido). También podés descargar e inspeccionar el
+script antes de ejecutarlo.
+
+Para una instalación manual, ejecutá el script incluido en el paquete extraído.
 
 Linux/macOS:
 

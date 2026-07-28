@@ -26,6 +26,16 @@ jobs:
       - run: go test ./test/e2e -count=1
       - run: go test -race ./... -count=1
       - run: go build -trimpath -o bin/diffbeacon ./cmd/diffbeacon
+      - name: Validate Unix installer lifecycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          install_dir="$RUNNER_TEMP/diffbeacon-source-bin"
+          ./scripts/install.sh --install-dir "$install_dir"
+          test -x "$install_dir/diffbeacon"
+          test "$("$install_dir/diffbeacon" --version)" = "diffbeacon development"
+          ./scripts/uninstall.sh --install-dir "$install_dir"
+          test ! -e "$install_dir/diffbeacon"
 
   windows-installers:
     runs-on: windows-latest

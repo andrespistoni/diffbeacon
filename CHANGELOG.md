@@ -11,6 +11,8 @@ y el proyecto utiliza [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Added
 
+- Instalación y desinstalación directas mediante `curl | sh` en Linux/macOS o
+  `irm | iex` en PowerShell; la instalación verifica SHA-256.
 - TUI read-only para revisar cambios staged, tracked y untracked con vistas
   inline, side-by-side, changes-only y full-file.
 - Actualización automática ante cambios externos del working tree, índice y
